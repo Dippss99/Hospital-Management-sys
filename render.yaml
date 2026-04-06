@@ -5,27 +5,22 @@ services:
     runtime: node
     rootDir: backend
     buildCommand: npm install
-    startCommand: npm start
+    startCommand: node server.js
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 5000
       - key: JWT_SECRET
-        generateValue: true          # Render auto-generates a secure random value
+        generateValue: true
       - key: AWS_REGION
         value: us-east-1
       - key: AWS_ACCESS_KEY_ID
-        sync: false                  # You fill this in Render dashboard
+        sync: false
       - key: AWS_SECRET_ACCESS_KEY
-        sync: false                  # You fill this in Render dashboard
+        sync: false
       - key: S3_BUCKET_NAME
-        sync: false                  # You fill this in Render dashboard
+        sync: false
       - key: CLIENT_URL
-        fromService:
-          name: medicare-frontend
-          type: web
-          property: host
+        value: https://medicare-frontend.onrender.com
 
   # ── Frontend (React Static Site) ──────────────────────────────
   - type: web
@@ -36,10 +31,7 @@ services:
     staticPublishPath: build
     envVars:
       - key: REACT_APP_API_URL
-        fromService:
-          name: medicare-backend
-          type: web
-          property: host
+        value: https://medicare-backend.onrender.com/api
     routes:
       - type: rewrite
         source: /*
