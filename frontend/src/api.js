@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: '/api' });
+// In production (Render), REACT_APP_API_URL is set to the backend service URL
+// In local dev, proxy in package.json forwards /api → localhost:5000
+const API = axios.create({
+  baseURL: process.env.REACT_APP_API_URL || '/api',
+});
 
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
